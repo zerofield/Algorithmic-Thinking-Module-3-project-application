@@ -40,9 +40,15 @@ def slow_closest_pair(cluster_list):
     Output: tuple of the form (dist, idx1, idx2) where the centers of the clusters
     cluster_list[idx1] and cluster_list[idx2] have minimum distance dist.       
     """
-    
-    return ()
+    closest_pair = (inf, -1, -1)
+    for cluster in range(len(cluster_list)):
+        for other_cluster in range(cluster, len(cluster_list)):
 
+            if cluster_list == other_cluster:
+                continue
+            pair = pair_distance(cluster_list, cluster, other_cluster)
+            closest_pair = min(closest_pair, pair, key = lambda val: val[0])
+    return closest_pair
 
 
 def fast_closest_pair(cluster_list):
@@ -55,8 +61,21 @@ def fast_closest_pair(cluster_list):
     Output: tuple of the form (dist, idx1, idx2) where the centers of the clusters
     cluster_list[idx1] and cluster_list[idx2] have minimum distance dist.       
     """
-    
-    return ()
+    cluster_list.sort(key = lambda cluster: cluster.horiz_center())
+    size = len(cluster_list)
+    if size <= 3:
+        closest_pair = slow_closest_pair(closest_pair)
+    else:
+        middle = size / 2
+
+        left_pair = fast_closest_pair(cluster_list[:middle - 1])
+        right_pair = fast_closest_pair(cluster_list[middle:])
+
+        closest_pair = min(left_pair, (right_pair[0], right_pair[1]+middle, right_pair[2]+middle, key = lambda val: val[0]))
+        mid = 1.0 / 2 * (cluster_list[middle-1].horiz_center()+cluster_list[middle].horiz_center())
+        closest_pair = min(closest_pair, closest_pair_strip(cluster_list, mid, closest_pair[0]), key = lambda val: val[0])
+
+    return closest_pair
 
 
 def closest_pair_strip(cluster_list, horiz_center, half_width):
@@ -71,8 +90,23 @@ def closest_pair_strip(cluster_list, horiz_center, half_width):
     Output: tuple of the form (dist, idx1, idx2) where the centers of the clusters
     cluster_list[idx1] and cluster_list[idx2] lie in the strip and have minimum distance dist.       
     """
+    
+    new_list = list()
 
-    return ()
+    for cluster in cluster_list:
+
+        if fabs(cluster.horiz_center() - horiz_center) < half_width:
+            new_list.append(cluster)
+
+        new_list = new_list.sort
+    new_list.sort(key = lambda cluster: cluster.vert_center())
+    cluster_size = len(new_list)
+    closest_pair = (inf, -1, -1)
+    for cluster in range(0, cluster_size - 1):
+        for other_cluster in range(cluster+1, min(cluster+3+1, size)):
+            closest_pair = min(closest_pair, pair_distance(new_list, cluster, other_cluster), lambda val: val[0])
+
+    return closest_pair
             
  
     
@@ -109,3 +143,5 @@ def kmeans_clustering(cluster_list, num_clusters, num_iterations):
             
     return []
 
+
+ 
