@@ -170,6 +170,9 @@ def test_kmeans():
         error_message += "\nExpected county tuples: " + str(expected_county_tuple)
         suite.run_test(student_county_tuple == expected_county_tuple, True, error_message)   
 
+
+        break
+
     suite.report_results()
 
 #test_hierarchical24()    
