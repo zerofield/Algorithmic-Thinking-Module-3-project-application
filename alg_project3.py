@@ -172,6 +172,15 @@ def kmeans_clustering(cluster_list, num_clusters, num_iterations):
 
     largest_population_clusters = [largest_population_cluster for dummy in range(num_clusters)]
 
+    #copy_list = list(cluster_list)
+    #largest_population_clusters = list()
+    #while len(largest_population_clusters) < num_clusters:
+        #max_val = (-float('inf'), None)
+        #for cluster in copy_list:
+            #if cluster.total_population() > max_val[0]:
+                #max_val = (cluster.total_population, cluster)
+        #largest_population_clusters.append(max_val[1])
+
     for dummy in range(num_iterations):
             
             c_clusters = [alg_cluster.Cluster(set(),0,0,0,0) for dummy in range(num_clusters)]
@@ -179,7 +188,8 @@ def kmeans_clustering(cluster_list, num_clusters, num_iterations):
                 closest_pair = (float('inf'), -1)
 
                 for c_index in range(num_clusters):
-                    pair = (cluster.distance(largest_population_clusters[c_index]), c_index)
+                    dist = cluster.distance(largest_population_clusters[c_index])
+                    pair = (dist, c_index)
                     closest_pair = min(closest_pair, pair, key = lambda val: val[0])
  
                 c_clusters[closest_pair[1]].merge_clusters(cluster)

@@ -17,7 +17,7 @@ import alg_cluster
 
 # conditional imports
 if DESKTOP:
-    import alg_project3_solution      # desktop project solution
+    import alg_project3     # desktop project solution
     import alg_clusters_matplotlib
 else:
     #import userXX_XXXXXXXX as alg_project3_solution   # CodeSkulptor project solution
@@ -32,7 +32,7 @@ else:
 # URLs for cancer risk data tables of various sizes
 # Numbers indicate number of counties in data table
 
-DIRECTORY = "http://commondatastorage.googleapis.com/codeskulptor-assets/"
+DIRECTORY = ""
 DATA_3108_URL = DIRECTORY + "data_clustering/unifiedCancerData_3108.csv"
 DATA_896_URL = DIRECTORY + "data_clustering/unifiedCancerData_896.csv"
 DATA_290_URL = DIRECTORY + "data_clustering/unifiedCancerData_290.csv"
@@ -44,7 +44,7 @@ def load_data_table(data_url):
     Import a table of county-based cancer risk data
     from a csv format file
     """
-    data_file = urllib2.urlopen(data_url)
+    data_file = open(data_url)
     data = data_file.read()
     data_lines = data.split('\n')
     print "Loaded", len(data_lines), "data points"
@@ -93,7 +93,7 @@ def run_example():
 
     Set DESKTOP = True/False to use either matplotlib or simplegui
     """
-    data_table = load_data_table(DATA_3108_URL)
+    data_table = load_data_table(DATA_111_URL)
     
     singleton_list = []
     for line in data_table:
@@ -102,17 +102,17 @@ def run_example():
     cluster_list = sequential_clustering(singleton_list, 15)	
     print "Displaying", len(cluster_list), "sequential clusters"
 
-    #cluster_list = alg_project3_solution.hierarchical_clustering(singleton_list, 9)
+    cluster_list = alg_project3.hierarchical_clustering(singleton_list, 9)
     #print "Displaying", len(cluster_list), "hierarchical clusters"
 
-    #cluster_list = alg_project3_solution.kmeans_clustering(singleton_list, 9, 5)	
+    #cluster_list = alg_project3.kmeans_clustering(singleton_list, 9, 5)	
     #print "Displaying", len(cluster_list), "k-means clusters"
 
             
     # draw the clusters using matplotlib or simplegui
     if DESKTOP:
-        alg_clusters_matplotlib.plot_clusters(data_table, cluster_list, False)
-        #alg_clusters_matplotlib.plot_clusters(data_table, cluster_list, True)  #add cluster centers
+        #alg_clusters_matplotlib.plot_clusters(data_table, cluster_list, False)
+        alg_clusters_matplotlib.plot_clusters(data_table, cluster_list, True)  #add cluster centers
     else:
         alg_clusters_simplegui.PlotClusters(data_table, cluster_list)   # use toggle in GUI to add cluster centers
     
