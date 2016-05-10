@@ -14,13 +14,13 @@ import urllib2
 import poc_simpletest      # http://www.codeskulptor.org/#poc_simpletest.py
 import alg_cluster         # http://www.codeskulptor.org/#alg_cluster.py
 
-import alg_project3_solution as student
+import alg_project3 as student
 
 
 ############################################################
 # Load data tables
 
-DIRECTORY = "http://commondatastorage.googleapis.com/codeskulptor-assets/"
+DIRECTORY = ""
 DATA_3108_URL = DIRECTORY + "data_clustering/unifiedCancerData_3108.csv"
 DATA_896_URL = DIRECTORY + "data_clustering/unifiedCancerData_896.csv"
 DATA_290_URL = DIRECTORY + "data_clustering/unifiedCancerData_290.csv"
@@ -33,7 +33,7 @@ def load_data_table(data_url):
     Import a table of county-based cancer risk data
     from a csv format file
     """
-    data_file = urllib2.urlopen(data_url)
+    data_file = open(data_url)
     data = data_file.read()
     data_lines = data.split('\n')
     print "Loaded", len(data_lines), "data points"
@@ -124,7 +124,7 @@ def test_hierarchical24():
 
     suite.report_results()
 
-test_hierarchical24()
+
 
 
 
@@ -171,7 +171,8 @@ def test_kmeans():
         suite.run_test(student_county_tuple == expected_county_tuple, True, error_message)   
 
     suite.report_results()
-    
+
+#test_hierarchical24()    
 test_kmeans()
         
         
