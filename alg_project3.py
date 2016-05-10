@@ -43,7 +43,6 @@ def slow_closest_pair(cluster_list):
     closest_pair = (float('inf'), -1, -1)
     for cluster in range(len(cluster_list)):
         for other_cluster in range(cluster, len(cluster_list)):
-
             if cluster == other_cluster:
                 continue
             pair = pair_distance(cluster_list, cluster, other_cluster)
@@ -93,26 +92,16 @@ def closest_pair_strip(cluster_list, horiz_center, half_width):
     Output: tuple of the form (dist, idx1, idx2) where the centers of the clusters
     cluster_list[idx1] and cluster_list[idx2] lie in the strip and have minimum distance dist.       
     """
-     
     new_list = list()
-
     for cluster in cluster_list:
-
         if math.fabs(cluster.horiz_center() - horiz_center) < half_width:
             new_list.append(cluster)
-
-    
-
     new_list.sort(key = lambda cluster: cluster.vert_center())
     cluster_size = len(new_list)
     closest_pair = (float('inf'), -1, -1)
 
-
-
-    for cluster in range(cluster_size - 2 + 1):
-         
+    for cluster in range(cluster_size - 2 + 1): 
         for other_cluster in range(cluster + 1, min(cluster + 4, cluster_size)):
-            
             pair = pair_distance(new_list, cluster, other_cluster)
             pair = pair_distance(cluster_list, cluster_list.index(new_list[pair[1]]),cluster_list.index(new_list[pair[2]]))
             closest_pair = min(closest_pair, pair, key = lambda val: val[0])
@@ -136,14 +125,10 @@ def hierarchical_clustering(cluster_list, num_clusters):
 
     while len(cluster_list) > num_clusters:
         closest_pair = fast_closest_pair(cluster_list)
-
         cluster1_pos = closest_pair[1]
         cluster2_pos = closest_pair[2]
-
         cluster_list[cluster1_pos].merge_clusters(cluster_list[cluster2_pos])
         del cluster_list[cluster2_pos]
-
-    
     return cluster_list
 
 
@@ -161,25 +146,24 @@ def kmeans_clustering(cluster_list, num_clusters, num_iterations):
     """
 
     # position initial clusters at the location of clusters with largest populations
-    cluster_list.sort(key = lambda val:val.total_population())
-    largest_population_cluster = cluster_list[-1]
-    largest_population_clusters = [largest_population_cluster for dummy in range(num_clusters)]
+
+    new_list = list(cluster_list)
+    new_list.sort(key = lambda val:val.total_population(), reverse = True)
+    old_clusters = new_list[:num_clusters]
 
     for dummy in range(num_iterations):           
-            c_clusters = [alg_cluster.Cluster(set(),0,0,0,0) for dummy in range(num_clusters)]
-            for cluster in cluster_list:
+            new_clusters = [alg_cluster.Cluster(set(),0,0,0,0) for dummy in range(num_clusters)]
+            for cluster in new_list:
                 closest_pair = (float('inf'), -1)
 
-                for c_index in range(num_clusters):
-                    dist = cluster.distance(largest_population_clusters[c_index])
-                    pair = (dist, c_index)
+                for index in range(num_clusters):
+                    dist = cluster.distance(old_clusters[index])     
+                    pair = (dist, index)
                     closest_pair = min(closest_pair, pair, key = lambda val: val[0])
- 
-                c_clusters[closest_pair[1]].merge_clusters(cluster)
 
-            for cluster_index in range(len(c_clusters)):
-                largest_population_clusters[cluster_index] = c_clusters[cluster_index]
+                new_clusters[closest_pair[1]].merge_clusters(cluster)
+            old_clusters = new_clusters
 
-    return largest_population_clusters
+    return old_clusters
  
  
