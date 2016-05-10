@@ -161,28 +161,11 @@ def kmeans_clustering(cluster_list, num_clusters, num_iterations):
     """
 
     # position initial clusters at the location of clusters with largest populations
-
-    largest_population_cluster = None
-    for cluster in cluster_list:
-        if largest_population_cluster == None:
-            largest_population_cluster = cluster
-        else:
-            if largest_population_cluster.total_population() < cluster.total_population():
-                largest_population_cluster = cluster 
-
+    cluster_list.sort(key = lambda val:val.total_population())
+    largest_population_cluster = cluster_list[-1]
     largest_population_clusters = [largest_population_cluster for dummy in range(num_clusters)]
 
-    #copy_list = list(cluster_list)
-    #largest_population_clusters = list()
-    #while len(largest_population_clusters) < num_clusters:
-        #max_val = (-float('inf'), None)
-        #for cluster in copy_list:
-            #if cluster.total_population() > max_val[0]:
-                #max_val = (cluster.total_population, cluster)
-        #largest_population_clusters.append(max_val[1])
-
-    for dummy in range(num_iterations):
-            
+    for dummy in range(num_iterations):           
             c_clusters = [alg_cluster.Cluster(set(),0,0,0,0) for dummy in range(num_clusters)]
             for cluster in cluster_list:
                 closest_pair = (float('inf'), -1)
@@ -194,12 +177,9 @@ def kmeans_clustering(cluster_list, num_clusters, num_iterations):
  
                 c_clusters[closest_pair[1]].merge_clusters(cluster)
 
-
             for cluster_index in range(len(c_clusters)):
                 largest_population_clusters[cluster_index] = c_clusters[cluster_index]
 
-
-    
     return largest_population_clusters
  
  
