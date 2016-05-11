@@ -116,7 +116,7 @@ def run_example():
     else:
         alg_clusters_simplegui.PlotClusters(data_table, cluster_list)   # use toggle in GUI to add cluster centers
     
-run_example()
+#run_example()
 
 
 
