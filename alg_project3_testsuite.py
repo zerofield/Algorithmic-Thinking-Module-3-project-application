@@ -175,7 +175,7 @@ def test_kmeans():
 
     suite.report_results()
 
-#test_hierarchical24()    
-test_kmeans()
+test_hierarchical24()    
+#test_kmeans()
         
         

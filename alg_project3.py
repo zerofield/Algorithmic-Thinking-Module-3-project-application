@@ -60,7 +60,7 @@ def fast_closest_pair(cluster_list):
     Output: tuple of the form (dist, idx1, idx2) where the centers of the clusters
     cluster_list[idx1] and cluster_list[idx2] have minimum distance dist.       
     """
-   
+    
     size = len(cluster_list)
     if size <= 3:
         closest_pair = slow_closest_pair(cluster_list)
