@@ -95,8 +95,9 @@ def q7():
 	cluster_list = alg_project3.hierarchical_clustering(singleton_list, 9)
 	error1 = compute_distortion(cluster_list, data_table)
 
-	print 'kmeans clustering', error1
-	print 'hierarchical clustering',error2
+	print 'hierarchical clustering',error1
+	print 'kmeans clustering', error2
+	
 
 def q10():
 	nodes_list = {viz.DATA_111_URL:111, viz.DATA_290_URL:290, viz.DATA_896_URL:896}
@@ -143,7 +144,7 @@ def q10():
 
 
 
-q1()
+#q2()
 #q2()
 #q3()
 #q5()

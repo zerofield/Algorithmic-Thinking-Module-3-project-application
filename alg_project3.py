@@ -66,7 +66,7 @@ def fast_closest_pair(cluster_list):
         closest_pair = slow_closest_pair(cluster_list)
         
     else:
-        cluster_list.sort(key = lambda cluster: cluster.horiz_center())
+        #cluster_list.sort(key = lambda cluster: cluster.horiz_center())
         middle = size / 2
 
         left_pair = fast_closest_pair(cluster_list[:middle])
@@ -122,8 +122,10 @@ def hierarchical_clustering(cluster_list, num_clusters):
     Input: List of clusters, integer number of clusters
     Output: List of clusters whose length is num_clusters
     """
-
+    cluster_list.sort(key = lambda cluster: cluster.horiz_center())
     while len(cluster_list) > num_clusters:
+        print 'cluster count:', len(cluster_list)
+        
         closest_pair = fast_closest_pair(cluster_list)
         cluster1_pos = closest_pair[1]
         cluster2_pos = closest_pair[2]
